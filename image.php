@@ -84,7 +84,7 @@
             $id   = $row['DATASET_ID'];
 
             echo "<li>";
-            echo "<form class='smallForm' action='".$path."actions.php' method='post'>";
+            echo "<form class='smallForm admin' action='".$path."actions.php' method='post'>";
             echo "<input type='hidden' name='ACTION' value='DELLINK'>";
             echo "<input type='hidden' name='IMGID' value='".$_GET['id']."'>";
             echo "<input type='hidden' name='DSID' value='".$id."'>";
@@ -97,7 +97,7 @@
       </ul>
     </div>
 
-    <div class="frame">
+    <div class="frame admin">
       <h2> Delete Image </h2>
       <span> This operation cannot be reversed! 
         All relations with datasets and image areas will be delated as well. 
@@ -109,7 +109,7 @@
       </form>
     </div>
 
-    <div class="frame">
+    <div class="frame user">
       <h2>Add box</h2>
       <form action=<?= $path.'actions.php'?> method="post">
         <input type="hidden" name="ACTION" value="ADDAREA">

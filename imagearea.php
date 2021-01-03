@@ -72,7 +72,7 @@
 
     </div>
 
-    <div class="frame">
+    <div class="frame user">
       <h2> Add classification</h2>
       <form class="smallForm" action=<?= $path.'actions.php'?> method="post">
         <input type="hidden" name="ACTION" value="ADDCLASS">

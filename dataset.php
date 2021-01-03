@@ -11,8 +11,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."gridstyle.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
-    <!---<script src="front.js" defer></script>-->
-
+    <script src=<?= $path."popup.js"?> defer></script>
+    
   </head>
   <body>
     <?php include("loginPanel.php");?>
@@ -54,7 +54,7 @@
           }
         ?>
 
-        <a id="frameAdd">
+        <a class="frameAdd user" id="openPopup">
           <div class="frameInsideAdd">
             <div class="horizontal"></div>
             <div class="vertical"></div>
@@ -78,41 +78,6 @@
         <a id="closePopup">close</a>
       </form>
     </div>
-
-    <script>
-      let komunikat = document.querySelector(".message");
-
-      function message() {
-          /* Adds shadow */
-          const shadow = document.createElement("div");
-          shadow.setAttribute("class", "shadow");
-          document.body.appendChild(shadow);
-
-          /* Displays message */
-          komunikat.style.display="inline";
-      }
-
-      /* Hides message & shadow */
-      function closeP() {
-          komunikat.style.display="none";
-          const shadow = document.querySelector(".shadow");
-          shadow.remove();
-      }
-      document.getElementById("closePopup").addEventListener("click", (e) => {
-        closeP();
-      });
-
-      document.getElementById("frameAdd").addEventListener("click", (e) => {
-        message();
-      });
-
-      //const tfURL = document.getElementById("imageID");
-
-      /*tfURL.addEventListener('focusout', (e) => {
-        document.getElementById("preview").src = tfURL.value;
-      });*/
-
-    </script>
 
   </body>
 </html>

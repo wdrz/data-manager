@@ -2,7 +2,8 @@
   you should add following components:
 
   <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
-
+  <script src=<?= $path."popup.js"?> defer></script>
+  
   <a id="openPopup"> Open window </a>
   
   <div class="message">
