@@ -9,7 +9,9 @@
     <title>Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
-    <script src="image.js" defer></script>
+    <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
+    <script src=<?= $path."image.js"?> defer></script>
+    <script src=<?= $path."popup.js"?> defer></script>
 
   </head>
   <body>
@@ -37,11 +39,9 @@
     </div>
 
     <div class="frame">
+      <canvas id="canv1"> </canvas>
 
-
-    <canvas id="canv1"> </canvas>
-
-    <table id="imageBoxes" class="priceTable">
+      <table id="imageBoxes" class="priceTable">
         <caption>Boxes</caption>
         <tr>
           <th>id</th>
@@ -67,52 +67,90 @@
           }
 
         ?>
-
-
-        <!--<tr>
-          <td>50</td>
-          <td>50</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr>
-          <td>70</td>
-          <td>100</td>
-          <td>100</td>
-          <td>40</td>
-        </tr><tr>
-          <td>150</td>
-          <td>200</td>
-          <td>50</td>
-          <td>50</td>
-        </tr>-->
       </table>
 
     </div>
 
     <div class="frame">
+      <h2> Linked datasets </h2>
+      <ul>
+        <?php
+          $stmt = oci_parse($conn, "SELECT * FROM (DatasetBelonging NATURAL JOIN Dataset) WHERE image_id = :id");
+          oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
+          oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 
-    <table id="sth" class="priceTable">
-        <caption>Boxes</caption>
-        <tr>
-          <th>a</th>
-          <th>b</th>
-          <th>c</th>
-          <th>d</th>
-        </tr>
-        <tr>
-          <td><input type="text" value="30"/></td>
-          <td><input type="text" value="70"/></td>
-          <td><input type="text" value="15"/></td>
-          <td><input type="text" value="100"/></td>
-        </tr>
-        <tr>
-          <td><input type="button" value="Dodaj"/></td>
-        </tr>
-      </table>
+          while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
+            $name = $row['NAME'];
+            $id   = $row['DATASET_ID'];
+
+            echo "<li>";
+            echo "<form class='smallForm' action='".$path."actions.php' method='post'>";
+            echo "<input type='hidden' name='ACTION' value='DELLINK'>";
+            echo "<input type='hidden' name='IMGID' value='".$_GET['id']."'>";
+            echo "<input type='hidden' name='DSID' value='".$id."'>";
+            echo "<input class='deleteButton' type='submit' value='delete'>";
+            echo "</form>";
+            echo "<a href=\"".$path."dataset.php?id=".$id."\">".$name."</a>";
+            echo "</li>";
+          }
+        ?>
+      </ul>
     </div>
+
+    <div class="frame">
+      <h2> Delete Image </h2>
+      <span> This operation cannot be reversed! 
+        All relations with datasets and image areas will be delated as well. 
+      </span>
+      <form class='smallForm' action=<?=$path."actions.php"?> method='post'>
+        <input type='hidden' name='ACTION' value='DELIMG'>
+        <input type='hidden' name='IMGID' value=<?=$_GET['id']?>>
+        <input class='deleteButton' type='submit' value='Delete'>
+      </form>
+    </div>
+
+    <div class="frame">
+      <h2>Add box</h2>
+      <form action=<?= $path.'actions.php'?> method="post">
+        <input type="hidden" name="ACTION" value="ADDAREA">
+        <input type="hidden" name="IMGID" value=<?=$_GET['id']?>>
+
+        <label for="imgx">X</label><br>
+        <input id="imgx" type="number" name="IMGX"><br>
+
+        <label for="imgy">Y</label><br>
+        <input id="imgy" type="number" name="IMGY"><br>
+        
+        <label for="imgw">Width</label><br>
+        <input id="imgw" type="number" name="IMGW"><br>
+
+        <label for="imgh">Height</label><br>
+        <input id="imgh" type="number" name="IMGH"><br>
+
+        <input type="submit" value="Add box">
+      </form>
+      <a id="openPopup"> Experimental add window </a>
+    </div>
+
     <nav class="frame">
       <a href=<?= $path?>>Back</a>
     </nav>
+
+    <div class="message wide">
+      <canvas id="imgadd"> </canvas>
+
+      <form action=<?= $path.'actions.php'?> method="post">
+        <h1>Add box</h1>
+        <input type="hidden" name="ACTION" value="ADDAREA">
+        <input type="hidden" name="IMGID" value=<?=$_GET['id']?>>
+
+        <input id="imgx" type="text" name="IMGX" placeholder="X">
+        <input id="imgy" type="text" name="IMGY" placeholder="Y">
+        <input id="imgw" type="text" name="IMGW" placeholder="dX">
+        <input id="imgh" type="text" name="IMGH" placeholder="dY"><br>
+        <input type="submit" value="Add box">
+        <a id="closePopup">close</a>
+      </form>
+    </div>
   </body>
 </html>

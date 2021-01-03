@@ -49,7 +49,11 @@
           <th>Label</th>
         </tr>
         <?php
-          $stmt = oci_parse($conn, "SELECT * FROM CLASSIFICATION WHERE area_id = :id");
+          $stmt = oci_parse($conn, 
+            "SELECT * FROM 
+            ((CLASSIFICATION JOIN USERS ON CREATED_BY = USER_ID)
+              NATURAL JOIN LABEL) WHERE area_id = :id");
+  
           oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
           oci_execute($stmt, OCI_NO_AUTO_COMMIT);
           while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
@@ -57,8 +61,8 @@
     
             echo "<tr>";
             echo "<td>".$id."</td>";
-            echo "<td>".$row['CREATED_BY']."</td>";
-            echo "<td>".$row['LABEL_ID']."</td>";
+            echo "<td>".$row['USERNAME']."</td>";
+            echo "<td>".$row['NAME']."</td>";
             echo "</tr>";
           }
 
@@ -66,6 +70,18 @@
 
       </table>
 
+    </div>
+
+    <div class="frame">
+      <h2> Add classification</h2>
+      <form class="smallForm" action=<?= $path.'actions.php'?> method="post">
+        <input type="hidden" name="ACTION" value="ADDCLASS">
+        <input type="hidden" name="AREAID" value=<?=$_GET['id']?>>
+
+        <input id="ulabel" type="text" name="ULABEL" placeholder="Label">
+
+        <input type="submit" value="Add">
+      </form>
     </div>
 
     <nav class="frame">

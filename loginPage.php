@@ -12,6 +12,15 @@
   <body>
     <?php
       session_start();
+
+      if ($_POST['ACTION'] == 'LOGOUT') {
+        $_SESSION['USER'] = null;
+        $_SESSION['ROLE'] = null;
+        $_SESSION['UID'] = null;
+        header('Location: '.$_SERVER['HTTP_REFERER']);
+        die();
+      }
+
       $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
       if (!$conn) echo "OCI conncection failed.\n";
 

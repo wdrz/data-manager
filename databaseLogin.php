@@ -25,10 +25,10 @@
     <h1> Set Oracle DB credentials </h1>
 
     <form class="frame" action=<?= $path.'databaseLogin.php'?> method="post">
-      <label for="username">DB User</label><br>
-      <input id="username" type="text" name="LOGN"><br>
-      <label for="password">DB Password</label><br>
-      <input id="password" type="password" name="PASW"><br>
+      <label for="DBusername">DB User</label><br>
+      <input id="DBusername" type="text" name="LOGN"><br>
+      <label for="DBpassword">DB Password</label><br>
+      <input id="DBpassword" type="password" name="PASW"><br>
       <input type="submit" value="Login">
     </form>
 

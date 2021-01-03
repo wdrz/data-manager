@@ -39,3 +39,25 @@
   color: white;
   opacity: 80%;
 }
+
+
+
+.wide.message {
+  width: 70%;
+
+}
+.wide.message input[type=text] {
+  width: 100px;
+  margin-left: 0;
+  margin-right: 0;
+  box-sizing: border-box;
+}
+.wide.message canvas {
+  max-width: 40vw;
+  max-height: 80vh;
+  float: left;
+}
+.wide form {
+  display: inline-block;
+  margin-left: 20px;
+}

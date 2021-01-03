@@ -20,10 +20,11 @@
       <div class="box">
         <h1>Dataset manager</h1>
         <a href=<?= $path."labels.php"?>>See tree of labels</a> &#8231;
-        <a href=<?= $path."labels.php"?>>New dataset</a>
+        <a href=<?= $path."newDataset.php"?> id="newDataset">New dataset</a> &#8231;
+        <a href=<?= $path."imageList.php"?>>Browse images</a>
       </div>
     </header>
-    <ul>
+    <ul class="specialList">
       <?php
         $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
         if (!$conn) {

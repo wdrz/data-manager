@@ -32,20 +32,78 @@ const drawRectangles = (ctx) => {
 // UPDATE
 
 
-const update = () => {
-  ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, img.height * ratio);
-  drawRectangles(ctx);
-};
 
 const c = document.getElementById("canv1");
 const ctx = c.getContext("2d");
 c.width = width;
 
+const drawImage = (ct) => {
+  ct.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, img.height * ratio);
+}
+
+const update = (ct) => {
+  drawImage(ct);
+  drawRectangles(ct);
+};
+
 img.onload = () => {
   ratio = width / img.width
   c.height = img.height * ratio;
-  update();
+  update(ctx);
 }
 
-// BUTTON
 
+// form to input new areas
+
+const vals = ["imgx", "imgy", "imgw", "imgh"];
+let el = new Object();
+//vals.forEach(val => el[val] = document.getElementById(val));
+for (const val of vals) {
+  el[val] = document.getElementById(val);
+}
+const get_val = (i) => el[ vals[i] ].value * ratio;
+const preview = () => {
+  update(ctx);
+  ctx.beginPath(); 
+  ctx.strokeStyle = "red";
+  ctx.rect(get_val(0), get_val(1), get_val(2), get_val(3));
+  ctx.stroke();
+}
+for (const val of vals) {
+  el[val].addEventListener('change', preview);
+}
+
+
+// popup
+/*const vals = ["imgx", "imgy", "imgw", "imgh"];
+let el = new Object();
+for (const val of vals)
+  el[val] = document.getElementById(val);
+
+const get_val = (i) => el[ vals[i] ].value * ratio;
+const set_val = (i, val) => (el[ vals[i] ].value = val);
+
+const preview = () => {
+  drawImage();
+  ctx.beginPath(); 
+  ctx.strokeStyle = "red";
+  ctx.rect(get_val(0), get_val(1), get_val(2), get_val(3));
+  ctx.stroke();
+}
+for (const val of vals) {
+  el[val].addEventListener('change', preview);
+}*/
+/*
+const imgadd = document.getElementById("imgadd"); // canvas 2
+const ctx2 = imgadd.getContext("2d");
+
+drawImage(ctx2);
+*/
+/*
+imgadd.addEventListener('click', (e) => {
+      let rect = e.target.getBoundingClientRect();
+      let x = e.clientX - rect.left; // x position within the element.
+      let y = e.clientY - rect.top;  // y position within the element.
+
+    });
+*/

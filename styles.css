@@ -27,6 +27,12 @@ h1 {
   padding-top: 30px;
 }
 
+h2 {
+  font-weight: 400;
+  font-size: x-large;
+  padding-top: 10px;
+}
+
 
 .datasetName { 
   display: inline-block;
@@ -57,7 +63,7 @@ h1 {
   box-shadow: 5px 5px 5px lightgray;
 }
 
-ul {
+ul.specialList {
   margin: 0;
   padding: 0;
 }
@@ -102,6 +108,30 @@ input[type=submit] {
   cursor: pointer;
 }
 
+form.smallForm {
+  display: inline;
+}
+
+input[type=submit].logout {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0;
+
+  text-decoration: none;
+  color: cornflowerblue;
+  cursor: pointer;
+  width: auto;
+  margin: 0px;
+}
+
+input[type=submit].deleteButton {
+  background-color: rgb(255, 84, 0);
+  padding: 5px;
+
+  text-decoration: none;
+  width: auto;
+}
 
 .redtext {
   color: red;
@@ -109,4 +139,8 @@ input[type=submit] {
 
 caption {
   padding-bottom: 10px;
+}
+
+area {
+  border: 1px solid black;
 }
