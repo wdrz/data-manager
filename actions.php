@@ -1,7 +1,7 @@
 <?php
   function run() {
     $flags_user = array("ADDIMG", "LINKIMG", "ADDAREA", "ADDCLASS", "NEWLABEL");
-    $flags_admin = array("DELIMG", "DELLABEL", "DELLINK");
+    $flags_admin = array("DELIMG", "DELLABEL", "DELLINK", "DELAREA", "DELCLASS");
 
     session_start();
 
@@ -69,9 +69,18 @@
           oci_bind_by_name($stmt, ':n', $_POST['NLABEL'], -1);
           oci_bind_by_name($stmt, ':id', $_POST['PARID'], -1);
           break;
+
         case 'DELLABEL':
           $stmt = oci_parse($conn, "delete from Label where label_id = :id ");
           oci_bind_by_name($stmt, ':id', $_POST['LID'], -1);
+          break;
+        case 'DELAREA':
+          $stmt = oci_parse($conn, "delete from ImageArea where area_id = :id ");
+          oci_bind_by_name($stmt, ':id', $_POST['AREAID'], -1);
+          break;
+        case 'DELCLASS':
+          $stmt = oci_parse($conn, "delete from Classification where class_id = :id ");
+          oci_bind_by_name($stmt, ':id', $_POST['CID'], -1);
           break;
       }
 

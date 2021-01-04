@@ -1,6 +1,10 @@
 <?php
-  session_start();
+
   $path = "/~wd417920/bd/";
+
+  $num_per_page = 2;
+
+  session_start();
   if ($_SESSION['ROLE'] != 'a') {
     echo "<style>";
     echo ".admin {display: none !important;}";

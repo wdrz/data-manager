@@ -50,6 +50,7 @@
           <th>y</th>
           <th>width</th>
           <th>height</th>
+          <th class='admin'> # </th>
         </tr>
         <?php
           $stmt = oci_parse($conn, "SELECT * FROM IMAGEAREA WHERE image_id = :id");
@@ -59,17 +60,25 @@
             $id = $row['AREA_ID'];
     
             echo "<tr>";
+            
             echo "<td><a href=\"".$path."imagearea.php?id=".$id."\">".$id."</a></td>";
             echo "<td>".$row['X']."</td>";
             echo "<td>".$row['Y']."</td>";
             echo "<td>".$row['WIDTH']."</td>";
             echo "<td>".$row['HEIGHT']."</td>";
+
+            echo "<td class='admin'><form class='smallForm' action='".$path."actions.php' method='post'>";
+            echo "<input type='hidden' name='ACTION' value='DELAREA'>";
+            echo "<input type='hidden' name='AREAID' value='".$id."'>";
+            echo "<input class='deleteButton' type='submit' value='delete'>";
+            echo "</form></td>";
+
             echo "</tr>";
           }
 
         ?>
       </table>
-
+      <button class="admin" id="openPopup" style="width: auto;"> New box </button>
     </div>
 
     <div class="frame">
@@ -111,14 +120,9 @@
     </div>
 
     <div class="frame user">
-      <h2>Add box</h2>
+      <h2>Manually add a box</h2>
 
-
-      <p> You can now use a new way </p> 
-
-      <button id="openPopup" style="width: auto;"> Open a new tool </button>
-      <hr>
-        <p> Or an old way </p>
+      <p> A better tool can be found above. </p> 
 
       <form action=<?= $path.'actions.php'?> method="post">
         <input type="hidden" name="ACTION" value="ADDAREA">

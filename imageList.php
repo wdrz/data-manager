@@ -20,16 +20,50 @@
     <div class="frame">
 
       <h1> Browse images </h1>
+      <?php
+        $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
+        if (!$conn) echo "OCI conncection failed.\n";
 
+        $stmt = oci_parse($conn, "SELECT count(*) FROM IMAGE");
+        oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
+        oci_execute($stmt, OCI_NO_AUTO_COMMIT);
+
+        $num_images = oci_fetch_array($stmt, OCI_BOTH)[0];
+        $num_pages = ceil($num_images / $num_per_page);
+
+        $page = 0;
+        if (isset($_GET['page'])) {
+          $page = $_GET['page'];
+        }
+
+        $from = $page * $num_per_page + 1;
+        $to = ($page + 1) * $num_per_page;
+      ?>
+    </div>
+
+    <div class="frame">
+      <?php
+        echo "<p>";
+        echo "Displaying ".min($num_per_page, $num_images)." images out of ".$num_images.". ";
+        echo "This is page ".($page + 1)." out of ".$num_pages.". (";
+        for ($x = 0; $x < $num_pages; $x++) {
+          echo "<a href='".$path."imageList.php?page=".$x."'>".($x + 1)."</a> ";
+        }
+        echo ")</p>";
+      ?>
     </div>
 
     <div class="frame">
       <div id="container">
         <?php
-          $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
-          if (!$conn) echo "OCI conncection failed.\n";
+          $stmt = oci_parse($conn, "
+            WITH imgs AS (
+              SELECT content, image_id, RANK() OVER(ORDER BY image_id DESC) AS my_rank
+              FROM IMAGE
+            ) SELECT content, image_id FROM imgs WHERE (my_rank <= :vto and my_rank >= :vfrom)");
+          oci_bind_by_name($stmt, ':vto', $to, -1);
+          oci_bind_by_name($stmt, ':vfrom', $from, -1);
 
-          $stmt = oci_parse($conn, "SELECT * FROM IMAGE");
           oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 
           while (($row = oci_fetch_array($stmt, OCI_BOTH))) {

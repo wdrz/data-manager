@@ -47,6 +47,8 @@
           <th>Id</th>
           <th>User</th>
           <th>Label</th>
+
+          <th class='admin'> # </th>
         </tr>
         <?php
           $stmt = oci_parse($conn, 
@@ -63,6 +65,13 @@
             echo "<td>".$id."</td>";
             echo "<td>".$row['USERNAME']."</td>";
             echo "<td>".$row['NAME']."</td>";
+
+            echo "<td class='admin'><form class='smallForm' action='".$path."actions.php' method='post'>";
+            echo "<input type='hidden' name='ACTION' value='DELCLASS'>";
+            echo "<input type='hidden' name='CID' value='".$id."'>";
+            echo "<input class='deleteButton' type='submit' value='delete'>";
+            echo "</form></td>";
+
             echo "</tr>";
           }
 
