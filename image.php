@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
+    <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."boxes.css"?>>
     <script src=<?= $path."image.js"?> defer></script>
     <script src=<?= $path."popup.js"?> defer></script>
 
@@ -111,6 +112,14 @@
 
     <div class="frame user">
       <h2>Add box</h2>
+
+
+      <p> You can now use a new way </p> 
+
+      <button id="openPopup" style="width: auto;"> Open a new tool </button>
+      <hr>
+        <p> Or an old way </p>
+
       <form action=<?= $path.'actions.php'?> method="post">
         <input type="hidden" name="ACTION" value="ADDAREA">
         <input type="hidden" name="IMGID" value=<?=$_GET['id']?>>
@@ -129,7 +138,6 @@
 
         <input type="submit" value="Add box">
       </form>
-      <a id="openPopup"> Experimental add window </a>
     </div>
 
     <nav class="frame">
@@ -137,17 +145,23 @@
     </nav>
 
     <div class="message wide">
-      <canvas id="imgadd"> </canvas>
+      <div class="imgcnt">
+        <img id="imgadd">
+        <div id="selbox" class="box"></div>
+        <div class="dot" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+      </div>
 
       <form action=<?= $path.'actions.php'?> method="post">
         <h1>Add box</h1>
+        <p> Click on the image to select an area! </p>
         <input type="hidden" name="ACTION" value="ADDAREA">
         <input type="hidden" name="IMGID" value=<?=$_GET['id']?>>
 
-        <input id="imgx" type="text" name="IMGX" placeholder="X">
-        <input id="imgy" type="text" name="IMGY" placeholder="Y">
-        <input id="imgw" type="text" name="IMGW" placeholder="dX">
-        <input id="imgh" type="text" name="IMGH" placeholder="dY"><br>
+        <input id="imgx_ex" type="text" name="IMGX" placeholder="X" readonly>
+        <input id="imgy_ex" type="text" name="IMGY" placeholder="Y" readonly>
+        <input id="imgw_ex" type="text" name="IMGW" placeholder="dX" readonly>
+        <input id="imgh_ex" type="text" name="IMGH" placeholder="dY" readonly><br>
         <input type="submit" value="Add box">
         <a id="closePopup">close</a>
       </form>

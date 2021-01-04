@@ -52,8 +52,8 @@
   margin-right: 0;
   box-sizing: border-box;
 }
-.wide.message canvas {
-  max-width: 40vw;
+.wide.message img {
+  max-width: 30vw;
   max-height: 80vh;
   float: left;
 }

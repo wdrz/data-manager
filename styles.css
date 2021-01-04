@@ -98,7 +98,7 @@ input[type=text], input[type=password] {
   border: 1px solid #ccc;
 }
 
-input[type=submit] {
+input[type=submit], button {
   width: 100px;
   background-color: cornflowerblue;
   color: white;

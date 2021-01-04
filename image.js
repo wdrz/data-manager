@@ -75,35 +75,62 @@ for (const val of vals) {
 
 
 // popup
-/*const vals = ["imgx", "imgy", "imgw", "imgh"];
-let el = new Object();
-for (const val of vals)
-  el[val] = document.getElementById(val);
+const box = document.getElementById("selbox");
+const dot1 = document.getElementById("dot1");
+const dot2 = document.getElementById("dot2");
 
-const get_val = (i) => el[ vals[i] ].value * ratio;
-const set_val = (i, val) => (el[ vals[i] ].value = val);
+const imgadd = document.getElementById("imgadd"); 
+imgadd.src = imgSrc;
 
-const preview = () => {
-  drawImage();
-  ctx.beginPath(); 
-  ctx.strokeStyle = "red";
-  ctx.rect(get_val(0), get_val(1), get_val(2), get_val(3));
-  ctx.stroke();
-}
-for (const val of vals) {
-  el[val].addEventListener('change', preview);
-}*/
-/*
-const imgadd = document.getElementById("imgadd"); // canvas 2
-const ctx2 = imgadd.getContext("2d");
+window.addEventListener('load', () => {
+  const vals_ex = ["imgx_ex", "imgy_ex", "imgw_ex", "imgh_ex"];
+  let el_ex = new Object();
+  for (const val of vals_ex)
+    el_ex[val] = document.getElementById(val);
 
-drawImage(ctx2);
-*/
-/*
-imgadd.addEventListener('click', (e) => {
-      let rect = e.target.getBoundingClientRect();
-      let x = e.clientX - rect.left; // x position within the element.
-      let y = e.clientY - rect.top;  // y position within the element.
+  const ratio_ex = () => imgadd.clientWidth / imgadd.naturalWidth; // !!!!
 
-    });
-*/
+  const set_val_ex = (i, val) => (el_ex[ vals_ex[i] ].value = Math.round(val));
+
+  let parity = 1;
+
+  let x, y, x2, y2, xeff, yeff, w, h;
+
+  imgadd.addEventListener('click', (e) => {
+    parity = (parity + 1) % 2;
+    let rect = e.target.getBoundingClientRect();
+
+    if (parity == 0) {
+      y = Math.round(e.clientY - rect.top);
+      x = Math.round(e.clientX - rect.left);
+
+      dot1.style.top = `${y}px`;
+      dot1.style.left = `${x}px`;
+
+    } else {
+      y2 = Math.round(e.clientY - rect.top);
+      x2 = Math.round(e.clientX - rect.left);
+
+      dot2.style.top = `${y2}px`;
+      dot2.style.left = `${x2}px`;
+    }
+
+
+    if (x > x2) [xeff, w] = [x2, x - x2];
+    else [xeff, w] = [x, x2 - x];
+
+    if (y > y2) [yeff, h] = [y2, y - y2];
+    else [yeff, h] = [y, y2 - y];
+
+    box.style.left = `${xeff}px`;
+    box.style.top = `${yeff}px`;
+    box.style.width = `${w}px`;
+    box.style.height = `${h}px`;
+
+    set_val_ex(0, xeff / ratio_ex());
+    set_val_ex(1, yeff/ ratio_ex());
+    set_val_ex(2, w / ratio_ex());
+    set_val_ex(3, h / ratio_ex());
+  });
+
+});
