@@ -4,10 +4,8 @@
 
     <?php include("global.php"); ?>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dataset</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."gridstyle.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
@@ -15,13 +13,12 @@
 
   </head>
   <body>
+    <!-- Login panel -->
     <?php include("loginPanel.php");?>
 
+    <!-- Header -->
     <div class="frame">
       <?php
-        $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
-        if (!$conn) echo "OCI conncection failed.\n";
-
 
         $stmt = oci_parse($conn, "SELECT * FROM DATASET WHERE dataset_id = :id");
         oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
@@ -49,6 +46,8 @@
       <p class="datasetDesc"><?=$res['DESCRIPTION']?></p>
 
     </div>
+
+    <!-- Navigate subpages, pagination -->
     <div class="frame">
       <?php
         echo "<p>";
@@ -61,6 +60,7 @@
       ?>
     </div>
 
+    <!-- list of images -->
     <div class="frame">
       <div id="container">
         <?php
@@ -104,12 +104,10 @@
       </div>
     </div>
 
+    <!-- Navigation -->
+    <?php include("navigation.php");?>
 
-
-    <nav class="frame">
-      <a href=<?= $path?>>Back</a>
-    </nav>
-
+    <!-- Add image hidden popup -->
     <div class="message">
       <h1>Link Image to Dataset</h1>
       <form action=<?= $path.'actions.php'?> method="post">

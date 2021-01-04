@@ -4,29 +4,24 @@
 
     <?php include("global.php"); ?>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Labels</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
-    <!---<script src="front.js" defer></script>-->
 
   </head>
   <body>
+    <!-- Login panel -->
     <?php include("loginPanel.php");?>
 
+    <!-- A frame which displays labels whose parent is equal to $_GET['par'] -->
     <div class="frame">
       <h2> Labels </h2>
       <ul>
       <?php
-        $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
-        if (!$conn) echo "OCI conncection failed.\n";
-
-        $stmt;
+        $stmt = null;
         if (isset($_GET['par'])) {
           $stmt = oci_parse($conn, "SELECT * FROM LABEL WHERE PARENT_ID = :par");
           oci_bind_by_name($stmt, ':par', $_GET['par'], -1);
-
 
         } else {
           $stmt = oci_parse($conn, "SELECT * FROM LABEL WHERE PARENT_ID IS NULL");
@@ -38,23 +33,26 @@
           $name = $row['NAME'];
           $id   = $row['LABEL_ID'];
   
-          echo "<li>";
-          echo "<form class='smallForm admin' action='".$path."actions.php' method='post'>";
-          echo "<input type='hidden' name='ACTION' value='DELLABEL'>";
-          echo "<input type='hidden' name='LID' value='".$id."'>";
-          echo "<input class='deleteButton' type='submit' value='delete'>";
-          echo "</form>";
-          echo "<a href=\"".$path."labels.php?par=".$id."\">".$name."</a>";
-          echo "</li>";
+          echo "
+            <li>
+              <form class='smallForm admin' action='${path}actions.php' method='post'>
+                <input type='hidden' name='ACTION' value='DELLABEL'>
+                <input type='hidden' name='LID' value='${id}'>
+                <input class='deleteButton' type='submit' value='delete'>
+              </form>
+              <a href='${path}labels.php?par=${id}'>${name}</a>
+            </li>";
         }
       ?>
       </ul>
 
     </div>
 
+    <!-- A form to add a new label -->
     <div class="frame user">
       <h2> Add label</h2>
       <form class="smallForm" action=<?= $path.'actions.php'?> method="post">
+
         <input type="hidden" name="ACTION" value="NEWLABEL">
         <input type="hidden" name="PARID" value=<?=$_GET['par']?>>
 
@@ -63,8 +61,7 @@
       </form>
     </div>
 
-    <nav class="frame">
-      <a href=<?= $path?>>Back</a>
-    </nav>
+    <!-- Navigation -->
+    <?php include("navigation.php");?>
   </body>
 </html>
