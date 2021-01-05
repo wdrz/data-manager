@@ -25,8 +25,6 @@
       if (!$conn) echo "OCI conncection failed.\n";
 
       if (isset($_POST['LOGN']) && isset($_POST['PASW'])) {
-        echo $_POST['LOGN'];
-        echo $_POST['PASW'];
         $stmt = oci_parse($conn, "SELECT * FROM Users WHERE username = :us AND password_hash = :pas");
         oci_bind_by_name($stmt, ':us', $_POST['LOGN'], -1);
         oci_bind_by_name($stmt, ':pas', $_POST['PASW'], -1);
@@ -38,14 +36,10 @@
           $_SESSION['UID'] = $row['USER_ID'];
           header("Location: ".$path);
           die();
-          //echo "HURRAH";
         } else {
-          echo "WRONG CREDENTIALS";
+          echo "<p class='redtext'>WRONG CREDENTIALS</p>";
         }
-/*
-        while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
-          echo "ha";
-        }*/
+
       }
     ?>
   

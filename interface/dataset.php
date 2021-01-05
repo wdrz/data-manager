@@ -104,6 +104,16 @@
       </div>
     </div>
 
+    <!-- Download dataset -->
+    <div class="frame">
+      <h2> Download data from this dataset </h2>
+      <ul>
+        <li><a href=<?= $path."download.php?id=".$_GET['id']."&type=DS"?>> Download urls of images (CSV) <a></li>
+        <li><a href=<?= $path."download.php?id=".$_GET['id']."&type=AR"?>> Download boxes (CSV) <a></li>
+        <li><a href=<?= $path."download.php?id=".$_GET['id']."&type=CL"?>> Download classifications (CSV) <a></li>
+      </ul>
+    </div>
+
     <!-- Navigation -->
     <?php include("navigation.php");?>
 
