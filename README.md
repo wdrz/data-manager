@@ -1,5 +1,27 @@
 # DB course project
 
+## Interface
+
+Front page
+
+![Image 1](images/1.png)
+
+You can add images by their url
+
+![Image 2](images/2.png)
+
+Images contain boxes
+
+![Image 3](images/3.png)
+
+Users can add their own boxes
+
+![Image 4](images/4.png)
+
+Boxes can be classified by users
+
+![Image 5](images/5.png)
+
 
 
 ## Sample Data 
