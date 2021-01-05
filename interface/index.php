@@ -24,7 +24,7 @@
     <!-- Display a frame for each dataset -->
     <ul class="specialList">
       <?php
-        $stmt = oci_parse($conn, "SELECT * FROM DATASET");
+        $stmt = oci_parse($conn, "SELECT * FROM (DATASET JOIN USERS ON USER_ID = CREATED_BY)");
         oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 
         while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
@@ -32,12 +32,14 @@
           $desc = $row['DESCRIPTION'];
           $date = $row['DATE_CREATED'];
           $id   = $row['DATASET_ID'];
+          $user = $row['USERNAME'];
   
           echo "
             <li class='frame'>
               <p class='datasetDate'>${date}</p>
               <a class='datasetName' href='${path}dataset.php?id=${id}'>${name}</a>
               <p class='datasetDesc'>${desc}</p>
+              <p class='datasetAuthor'>Created by: ${user}</p>
             </li>";
         }
 

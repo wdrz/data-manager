@@ -20,7 +20,7 @@
     <div class="frame">
       <?php
 
-        $stmt = oci_parse($conn, "SELECT * FROM DATASET WHERE dataset_id = :id");
+        $stmt = oci_parse($conn, "SELECT * FROM (DATASET JOIN USERS ON USER_ID = CREATED_BY) WHERE dataset_id = :id");
         oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
         oci_execute($stmt, OCI_NO_AUTO_COMMIT);
         $res = oci_fetch_array($stmt, OCI_BOTH);
@@ -44,6 +44,7 @@
       <p class="datasetDate"><?=$res['DATE_CREATED']?></p>
       <p class="datasetName"><?=$res['NAME']?></p>
       <p class="datasetDesc"><?=$res['DESCRIPTION']?></p>
+      <p class='datasetAuthor'>Created by: <?=$res['USERNAME']?></p>
 
     </div>
 

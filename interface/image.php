@@ -4,27 +4,26 @@
 
     <?php include("global.php"); ?>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Image</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."styles.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."popup.css"?>>
     <link rel="stylesheet" type="text/css" media="screen" href=<?= $path."boxes.css"?>>
+  
     <script src=<?= $path."image.js"?> defer></script>
     <script src=<?= $path."popup.js"?> defer></script>
 
   </head>
   <body>
+    <!-- Login panel -->
     <?php include("loginPanel.php");?>
 
+    <!-- Header -->
     <div class="frame">
       <?php
-        $conn = oci_connect($_SESSION['LOGIN'],$_SESSION['PASS'],"//labora.mimuw.edu.pl/LABS");
-        if (!$conn) echo "OCI conncection failed.\n";
-
         $stmt = oci_parse($conn, "SELECT * FROM Image WHERE image_id = :id");
         oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
+
         oci_execute($stmt, OCI_NO_AUTO_COMMIT);
         $res = oci_fetch_array($stmt, OCI_BOTH);
       ?>
@@ -32,13 +31,12 @@
         const imgSrc = "<?=$res['CONTENT']?>";
       </script>
 
-
-      <p class="price">user: ___ </p>
       <?php
         echo "<p class=\"datasetName\"> Image ".$_GET['id']."</p>";
       ?>
     </div>
 
+    <!-- List of boxes -->
     <div class="frame">
       <canvas id="canv1"> </canvas>
 
@@ -53,34 +51,45 @@
           <th class='admin'> # </th>
         </tr>
         <?php
+
           $stmt = oci_parse($conn, "SELECT * FROM IMAGEAREA WHERE image_id = :id");
           oci_bind_by_name($stmt, ':id', $_GET['id'], -1);
           oci_execute($stmt, OCI_NO_AUTO_COMMIT);
+
           while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
-            $id = $row['AREA_ID'];
+            $id     = $row['AREA_ID'];
+            $x      = $row['X'];
+            $y      = $row['Y'];
+            $width  = $row['WIDTH'];
+            $height = $row['HEIGHT'];
     
-            echo "<tr>";
-            
-            echo "<td><a href=\"".$path."imagearea.php?id=".$id."\">".$id."</a></td>";
-            echo "<td>".$row['X']."</td>";
-            echo "<td>".$row['Y']."</td>";
-            echo "<td>".$row['WIDTH']."</td>";
-            echo "<td>".$row['HEIGHT']."</td>";
+            echo "
+              <tr>
+                <td><a href='${path}imagearea.php?id=${id}'>${id}</a></td>
+                <td>${x}</td>
+                <td>${y}</td>
+                <td>${width}</td>
+                <td>${height}</td>
 
-            echo "<td class='admin'><form class='smallForm' action='".$path."actions.php' method='post'>";
-            echo "<input type='hidden' name='ACTION' value='DELAREA'>";
-            echo "<input type='hidden' name='AREAID' value='".$id."'>";
-            echo "<input class='deleteButton' type='submit' value='delete'>";
-            echo "</form></td>";
-
-            echo "</tr>";
+                <td class='admin'>
+                  <form class='smallForm' action='${path}actions.php' method='post'>
+                    <input type='hidden' name='ACTION' value='DELAREA'>
+                    <input type='hidden' name='AREAID' value='${id}'>
+                    <input class='deleteButton' type='submit' value='delete'>
+                  </form>
+                </td>
+              </tr>";
           }
 
         ?>
       </table>
+
+      <!-- open popup -->
       <button class="admin" id="openPopup" style="width: auto;"> New box </button>
+
     </div>
 
+    <!-- list of datasets -->
     <div class="frame">
       <h2> Linked datasets </h2>
       <ul>
@@ -90,26 +99,30 @@
           oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 
           while (($row = oci_fetch_array($stmt, OCI_BOTH))) {
-            $name = $row['NAME'];
-            $id   = $row['DATASET_ID'];
+            $name   = $row['NAME'];
+            $id     = $row['DATASET_ID'];
+            $img_id = $_GET['id'];
 
-            echo "<li>";
-            echo "<form class='smallForm admin' action='".$path."actions.php' method='post'>";
-            echo "<input type='hidden' name='ACTION' value='DELLINK'>";
-            echo "<input type='hidden' name='IMGID' value='".$_GET['id']."'>";
-            echo "<input type='hidden' name='DSID' value='".$id."'>";
-            echo "<input class='deleteButton' type='submit' value='delete'>";
-            echo "</form>";
-            echo "<a href=\"".$path."dataset.php?id=".$id."\">".$name."</a>";
-            echo "</li>";
+            echo "
+              <li>
+                <form class='smallForm admin' action='${path}actions.php' method='post'>
+                  <input type='hidden' name='ACTION' value='DELLINK'>
+                  <input type='hidden' name='IMGID' value='${img_id}'>
+                  <input type='hidden' name='DSID' value='${id}'>
+                  <input class='deleteButton' type='submit' value='delete'>
+                </form>
+                <a href='${path}dataset.php?id=${id}'>${name}</a>
+              </li>";
           }
         ?>
       </ul>
     </div>
 
+    <!-- delete image -->
     <div class="frame admin">
       <h2> Delete Image </h2>
-      <span> This operation cannot be reversed! 
+      <span> 
+        This operation cannot be reversed! 
         All relations with datasets and image areas will be delated as well. 
       </span>
       <form class='smallForm' action=<?=$path."actions.php"?> method='post'>
@@ -119,8 +132,9 @@
       </form>
     </div>
 
+    <!-- add box OLD -->
     <div class="frame user">
-      <h2>Manually add a box</h2>
+      <h2> Manually add a box </h2>
 
       <p> A better tool can be found above. </p> 
 
@@ -144,10 +158,10 @@
       </form>
     </div>
 
-    <nav class="frame">
-      <a href=<?= $path?>>Back</a>
-    </nav>
+    <!-- Navigation -->
+    <?php include("navigation.php");?>
 
+    <!-- add box tool, popup -->
     <div class="message wide">
       <div class="imgcnt">
         <img id="imgadd">
