@@ -4,10 +4,9 @@
 
 
 <?php
+  include("path.php");
 
-  $path = "/~wd417920/bd/";
-
-  $num_per_page = 2;
+  $num_per_page = 10;
 
   session_start();
   if ($_SESSION['ROLE'] != 'a') {

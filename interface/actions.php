@@ -3,6 +3,8 @@
     $flags_user = array("ADDIMG", "LINKIMG", "ADDAREA", "ADDCLASS", "NEWLABEL");
     $flags_admin = array("DELIMG", "DELLABEL", "DELLINK", "DELAREA", "DELCLASS");
 
+    include("path.php");
+
     session_start();
 
     if (! isset($_SESSION['USER'])) {
@@ -17,6 +19,8 @@
       if (!$conn) echo "OCI conncection failed.\n";
 
       $stmt = null;
+      $redir = 'back';
+
       switch ($_POST['ACTION']) {
         case 'ADDIMG':
           $stmt = oci_parse($conn, "insert into IMAGE (content) values (:url)");
@@ -47,6 +51,7 @@
         case 'DELIMG':
           $stmt = oci_parse($conn, "delete from Image where image_id = :id ");
           oci_bind_by_name($stmt, ':id', $_POST['IMGID'], -1);
+          $redir = 'main';
           break;
 
         case 'ADDCLASS':
@@ -88,7 +93,11 @@
       oci_commit($conn);
 
       if ($result) {
-        header('Location: '.$_SERVER['HTTP_REFERER']);
+        if ($redir == 'back') {
+          header('Location: '.$_SERVER['HTTP_REFERER']);
+        } else if ($redir = 'main') {
+          header("Location: ".$path);
+        }
         die();
 
       } else {
