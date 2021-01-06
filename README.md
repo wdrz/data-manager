@@ -5,6 +5,7 @@ This application is a image dataset manager. Its puproose is to upload, delete, 
 ## Model
 Database contains user credentials, labels, datasets, images, areas of images and classiffications of areas. Users have different roles in the system ordinary users and admins. Different groups have different permissions to perform operations such as viewing, modifying, createing datasets, specifying new areas of existing images, adding images, classifying areas of images.
 
+![Image 0](images/uml.png)
 
 ## Interface
 Front page contains a list of existing datasets with their titles, descriptions etc. It also allows to jump to subpages and to login. A login panel is displayed on every page. 
