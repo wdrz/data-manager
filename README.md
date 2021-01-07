@@ -1,9 +1,9 @@
 # DB course project
 ## Introduction
-This application is a image dataset manager. Its puproose is to upload, delete, display and download image datasets, as well as inserting and reviewing classifications. Project is written mostly in PHP and large part of it is JavaScript. Apart of this there are stylesheets (CSS), Python code in Jupyter notebook to generate .sql script. I am using Oracle database.
+This application is an image dataset manager. Its purpose is to upload, delete, display and download image datasets, as well as to insert and review classifications. The project in combination of PHP, JavaScript, HTML, CSS, PL/SQL. Python was used to generate sample data in a form of a .sql script. Last but not least, the project's database is Oracle.
 
 ## Model
-Database contains user credentials, labels, datasets, images, areas of images and classiffications of areas. Users have different roles in the system ordinary users and admins. Different groups have different permissions to perform operations such as viewing, modifying, createing datasets, specifying new areas of existing images, adding images, classifying areas of images.
+Database contains user credentials, labels, datasets, images, areas of images and classiffications of areas. Users have different roles in the system: ordinary users and admins. Different groups have different permissions to perform operations such as viewing, modifying, createing datasets, specifying new areas of existing images, adding images, classifying areas of images.
 
 ![Image 0](images/uml.png)
 
@@ -11,7 +11,7 @@ It is ensured by PL/SQL triggers that the graph of labels is a forest, ie. there
 
 ![Image triggers](images/triggers.png)
 
-System also can detect contradicting classifications of image areas. Two classifications are said to be contradictory if they are not the same and any one of them is not a generalization of the other (in the graph of labels, one does not lay on the path to the root from other and vice versa). If such two contradictory classifications exist, an area of image is properly marked, and its subpage changes style to more reddish. This functionality is again written in PL/SQL. Check this code [here](model/constraints.sql).
+System also can detect contradicting classifications of image areas. Two classifications are said to be contradictory if they are not the same and any one of them is not a generalization of the other (in the graph of labels, one does not lay on the path to the root from other and vice versa). If such two contradictory classifications exist, an area of image is properly marked, and its subpage changes style to more reddish. This functionality is again written in PL/SQL. Check out this code [here](model/constraints.sql).
 
 ## Interface
 Front page contains a list of existing datasets with their titles, descriptions etc. It also allows to jump to subpages and to login. A login panel is displayed on every page.
@@ -34,6 +34,9 @@ Boxes can be classified by users. Everyone can see a table that contains a list 
 
 ![Image 5](images/5.png)
 
+Each dataset can be downloaded (.csv).
+
+![Image 6](images/6.png)
 
 ## Data
 This project uses Oracle database.
