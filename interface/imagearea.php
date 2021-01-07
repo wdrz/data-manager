@@ -36,12 +36,20 @@
       ?>
     </div>
 
-    <div class="frame">
+    <?php
+      if ($res['CONTRADICTORY_LABELS'] == 1) {
+        echo "<div class='frame redBg'>";
+        echo "<h2> Classifications are contradictory! </h2>";
+      } else {
+        echo "<div class='frame'>";
+      }
+    ?>
 
 
     <canvas id="canv1"> </canvas>
 
-    <table id="table1" class="priceTable">
+      <table id='table1' class='priceTable'>
+
         <caption>Classifications</caption>
         <tr>
           <th>Id</th>
