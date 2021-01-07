@@ -7,12 +7,18 @@ Database contains user credentials, labels, datasets, images, areas of images an
 
 ![Image 0](images/uml.png)
 
+It is ensured by PL/SQL triggers that the graph of labels is a forest, ie. there are no cycles. It is performed by associatiang a depth with every label and a simple check if such depth is greater than the depth of label's parent by 1.
+
+![Image triggers](images/triggers.png)
+
+System also can detect contradicting classifications of image areas. Two classifications are said to be contradictory if they are not the same and any one of them is not a generalization of the other (in the graph of labels, one does not lay on the path to the root from other and vice versa). If such two contradictory classifications exist, an area of image is properly marked, and its subpage changes style to more reddish. This functionality is again written in PL/SQL. Check this code [here](model/constraints.sql).
+
 ## Interface
-Front page contains a list of existing datasets with their titles, descriptions etc. It also allows to jump to subpages and to login. A login panel is displayed on every page. 
+Front page contains a list of existing datasets with their titles, descriptions etc. It also allows to jump to subpages and to login. A login panel is displayed on every page.
 
 ![Image 1](images/1.png)
 
-From front page one can jump to page which contains a list of images. The list is paginated. By clicking a big '+' sign, user can open a popup (see image below) (JS, CSS) which contains a form that allows to insert an url to image on the internet that will be added to the database. Such image can be later linked to one or more datasets, by visiting a dataset subpage and filling in a form there. 
+From front page one can jump to page which contains a list of images. The list is paginated. By clicking a big '+' sign, user can open a popup (see image below) (JS, CSS) which contains a form that allows to insert an url to image on the internet that will be added to the database. Such image can be later linked to one or more datasets, by visiting a dataset subpage and filling in a form there.
 
 ![Image 2](images/2.png)
 
